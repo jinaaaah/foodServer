@@ -1,10 +1,10 @@
 const net = require('net');
 
-const client = net.createConnection({port: 8081}, () => {
+const client = net.createConnection({host:'127.0.0.1',port: 8081}, () => {
     "use strict";
     client.write(JSON.stringify({userID: 'asdf', protocol: 'filter', type: '소양인'}));
     setTimeout(() => {
-        //client.write(JSON.stringify({userID: 'jijina', protocol: 'message', type: '소양인', message: 'hello!!'}));
+        client.write(JSON.stringify({userID: 'jijina', protocol: 'message', type: '소양인', message: 'hello!!'}));
     }, 1000)
 
 });

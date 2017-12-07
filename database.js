@@ -181,10 +181,26 @@ exports.getFoodList = function () {
     });
 };
 
-exports.getChatList = function (type) {
+exports.getFilteredChatList = function (type) {
     return new Promise((resolve, reject) => {
         "use strict";
-        connection.query("SELECT * FROM CHAT WHERE CHAT.Type = " + "'" + type + "';", function (error, results, fields) {
+        connection.query("SELECT * FROM CHAT WHERE CHAT.Type not in ( " + "'" + type + "');", function (error, results, fields) {
+            if (error) reject(error);
+            else {
+                resolve({
+                    error: error,
+                    results: results,
+                    fields: fields,
+                });
+            }
+        });
+    });
+};
+
+exports.getChatList = function () {
+    return new Promise((resolve, reject) => {
+        "use strict";
+        connection.query("SELECT * FROM CHAT;", function (error, results, fields) {
             if (error) reject(error);
             else {
                 resolve({

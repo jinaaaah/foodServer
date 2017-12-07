@@ -18,10 +18,13 @@ const server = net.createServer((soc) => {
         switch (d.protocol) {
             case  'filter':
                 /// db 조회
-                const ret = await db.getChatList(d.type);
-                console.log(ret);
-                // 소켓에 써줌
-                soc.write(JSON.stringify({protocol: 'filter', result: ret.results}));
+                if(d.type === ''){
+                    const ret = await db.getChatList();
+                    soc.write(JSON.stringify({protocol: 'filter', result: ret.results}));
+                }else{
+                    const ret = await db.getFilteredChatList(d.type);
+                    soc.write(JSON.stringify({protocol: 'filter', result: ret.results}));
+                }
                 break;
 
             case 'message':
