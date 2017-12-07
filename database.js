@@ -30,8 +30,7 @@ function createDB() {
     });
     connection.query('CREATE TABLE CHAT (ChatID int AUTO_INCREMENT,UserID varchar(10)' +
         ', Type char(10), Message varchar(200),' +
-        'PRIMARY KEY (ChatID),' +
-        'FOREIGN KEY (UserID) REFERENCES USER(UserID));', function (error, results, fields) {
+        'PRIMARY KEY (ChatID));', function (error, results, fields) {
         if (error) throw error;
         console.log(results);
     });
