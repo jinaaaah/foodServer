@@ -43,7 +43,7 @@ exports.findByFoodName = function (foodname) {
 };
 
 function createDB() {
-    connection.query('CREATE DATABASE foodDB',function (error, results, fields) {
+    connection.query('CREATE DATABASE foodDB DEFAULT CHARACTER SET utf8',function (error, results, fields) {
     if(error) throw error;
     console.log(results);
     });
@@ -89,18 +89,20 @@ function createDB() {
 }
 
 function initFoodTable() {
-
     var data = fs.readFileSync("./json_file/foodData_utf8.json").toString();
     var jsonData = JSON.parse(data);
 
     for(var i in jsonData){
-        connection.query("INSERT INTO FOOD(Food_Name, Ingredient, Category) VALUES ('" + jsonData[i].요리 +"','"+ jsonData[i].재료 + "','"+ jsonData[i].카테고리 +"');"
-            , function (error, results, fields) {
-                if (error) throw error;
-                console.log(results);
-            });
-        console.log(jsonData[i].요리)
+        insertFood(jsonData[i].요리,jsonData[i].재료, jsonData[i].카테고리);
     }
+}
+
+function insertFood(foodName, Ingredient, Category) {
+    connection.query("INSERT INTO FOOD(Food_Name, Ingredient, Category) VALUES ('" + foodName +"','"+ Ingredient + "','"+ Category +"');"
+        , function (error, results, fields) {
+            if (error) throw error;
+            console.log(results);
+        });
 }
 
 function initConstitutionTable() {
@@ -122,14 +124,18 @@ function initUSERTable() {
     var data = fs.readFileSync("./json_file/userData_utf8.json").toString();
     var jsonData = JSON.parse(data);
     for(var i in jsonData){
-        connection.query("INSERT INTO USER(UserID, Password, Name, Birth, Type) VALUES ('" + jsonData[i].ID +"','"+ jsonData[i].Password + "','"+ jsonData[i].username + "','"+ jsonData[i].birth + "','"+ jsonData[i].usertype+"');"
-            , function (error, results, fields) {
-                if (error) throw error;
-                console.log(results);
-            });
-        console.log(jsonData[i].요리)
+        insertUser(jsonData[i].ID,jsonData[i].Password,jsonData[i].username,jsonData[i].birth,jsonData[i].usertype );
     }
 }
+
+function insertUser(userID, password, name, birth, type) {
+    connection.query("INSERT INTO USER(UserID, Password, Name, Birth, Type) VALUES ('" + userID +"','"+ password + "','"+ name + "','"+ birth + "','"+ type+"');"
+        , function (error, results, fields) {
+            if (error) throw error;
+            console.log(results);
+        });
+}
+
 exports.join = function(name){
     "use strict";
 
