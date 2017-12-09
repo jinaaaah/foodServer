@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var api = require('./routes/api');
 
 var app = express();
+var router = express.Router();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +22,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+app.use(router);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));

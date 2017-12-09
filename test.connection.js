@@ -3,7 +3,7 @@ request.post('http://13.230.142.157:8080/a/users/join', {
     form: {
         userID: 'jiddji',
         password: '1212',
-        name: '지나a',
+        name: '지나3a',
         birth: '1996-02-07',
         type: '소음인'
     }
