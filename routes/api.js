@@ -79,7 +79,7 @@ router.get('/constitution/:type', async function (req, res, next) {
 /* POST Data */
 
 //회원가입
-router.post('/join', async function (req, res, next) {
+router.post('users/join', async function (req, res, next) {
     const data = req.body;
     try {
         const ret = await db.insertUser(data.userID, data.password, data.name, data.birth, data.type);
@@ -91,7 +91,7 @@ router.post('/join', async function (req, res, next) {
 });
 
 //로그인
-router.post('/login', async function (req, res, next) {
+router.post('users/login', async function (req, res, next) {
     const data = req.body;
     try {
         const ret = await db.login(data.userID, data.password);
