@@ -20,9 +20,7 @@ request.post('http://127.0.0.1:8080/a/users/login', {
     }
 }, function (e, r, b) {
     "use strict";
-     //console.log(b);
-     //console.log(e);
-     //console.log(r);
+     console.log(b);
 });
 
 // request.get('')

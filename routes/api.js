@@ -97,8 +97,9 @@ router.post('/users/login', async function (req, res, next) {
         const ret = await db.login(data.userID, data.password);
         if(ret.results.length !== 0){
             res.status = 200;
-            res.send(e);
-            console.log(e);
+            res.send(ret.results);
+        }else{
+            res.status(400).send("wrong login");
         }
     } catch (e) {
         res.status = 500;
