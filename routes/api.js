@@ -97,7 +97,7 @@ router.post('/users/login', async function (req, res, next) {
         const ret = await db.login(data.userID, data.password);
         if(ret.results.length !== 0){
             res.status = 200;
-            res.send(data);
+            res.send(res.json(ret.results));
             console.log(e);
         }
     } catch (e) {
