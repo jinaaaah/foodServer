@@ -95,8 +95,7 @@ router.post('/users/login', async function (req, res, next) {
     const data = req.body;
     try {
         const ret = await db.login(data.userID, data.password);
-        res.json(ret.results);
-        if(ret.results.length === 0){
+        if(ret.results.length !== 0){
             res.status = 200;
             res.send(e);
             console.log(e);
@@ -107,7 +106,6 @@ router.post('/users/login', async function (req, res, next) {
         console.log(e);
     }
 });
-
 
 
 module.exports = router;

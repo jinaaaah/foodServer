@@ -13,16 +13,16 @@ const request = require('request');
 //     console.log("ㅇㄹㅇ"+e);
 // });
 
-request.post('http://13.230.142.157:8080/a/users/login', {
+request.post('http://127.0.0.1:8080/a/users/login', {
     form: {
         userID: 'jinaS2',
         password: '123456'
     }
 }, function (e, r, b) {
     "use strict";
-    console.log(b);
-    console.log(e);
-    console.log(r);
+     //console.log(b);
+     //console.log(e);
+     //console.log(r);
 });
 
 // request.get('')
