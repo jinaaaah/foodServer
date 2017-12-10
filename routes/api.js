@@ -81,6 +81,7 @@ router.get('/constitution/:type', async function (req, res, next) {
 //회원가입
 router.post('/users/join', async function (req, res, next) {
     const data = req.body;
+    console.log(data);
     try {
         const ret = await db.insertUser(data.userID, data.password, data.name, data.birth, data.type);
     } catch (e) {
