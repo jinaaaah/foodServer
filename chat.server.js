@@ -30,7 +30,7 @@ const server = net.createServer((soc) => {
             case 'message':
                 // 메세지 브로드 캐스트
                 db.insertChat(d.userID, d.type, d.message);
-                broadcast(JSON.stringify({protocol: 'message', message: d.message, user: d.userID}));
+                broadcast(JSON.stringify({protocol: 'message', message: d.message, user: d.userID, type: d.type}));
                 break;
         }
 
