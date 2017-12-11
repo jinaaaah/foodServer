@@ -94,7 +94,7 @@ router.post('/users/join', async function (req, res, next) {
 router.post('/users/login', async function (req, res, next) {
     const data = req.body;
     console.log("Recieved Data: "+ JSON.stringify(data));
-    res.send("Recieved Data: "+ JSON.stringify(data));
+
     try {
         const ret = await db.login(data.userID, data.password);
         if(ret.results.length !== 0){
