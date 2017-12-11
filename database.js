@@ -36,25 +36,19 @@ function createDB() {
     });
 
     connection.query('CREATE TABLE CONSTITUTION' +
-        '(Type char(10), Positive_Ingredient varchar(200),Negative_Ingredient varchar(200),' +
+        '(Type char(10), Positive_Ingredient TEXT,Negative_Ingredient TEXT,' +
         'PRIMARY KEY ( Type ) )', function (error, results, fields) {
         if (error) throw error;
         console.log(results);
     });
 
     connection.query('CREATE TABLE FOOD' +
-        '(Food_Name varchar(100) ,Ingredient varchar(50), Category varchar(30),' +
+        '(Food_Name varchar(100) ,Food_URL TEXT, Ingredient varchar(50), Category varchar(30),' +
         'PRIMARY KEY ( Food_Name , Ingredient ))', function (error, results, fields) {
         if (error) throw error;
         console.log(results);
     });
 
-    connection.query('CREATE TABLE INGREDIENT' +
-        '(Constitution varchar(10), Food_name varchar(100),' +
-        'PRIMARY KEY ( Constitution ), FOREIGN KEY (Food_name) REFERENCES FOOD(Food_Name))', function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-    });
 }
 
 function initFoodTable() {
@@ -62,12 +56,12 @@ function initFoodTable() {
     var jsonData = JSON.parse(data);
 
     for (var i in jsonData) {
-        insertFood(jsonData[i].요리, jsonData[i].재료, jsonData[i].카테고리);
+        insertFood(jsonData[i].요리, jsonData[i].재료, jsonData[i].카테고리, jsonData[i].주소);
     }
 }
 
-function insertFood(foodName, Ingredient, Category) {
-    connection.query("INSERT INTO FOOD(Food_Name, Ingredient, Category) VALUES ('" + foodName + "','" + Ingredient + "','" + Category + "');"
+function insertFood(foodName, Ingredient, Category, address) {
+    connection.query("INSERT INTO FOOD(Food_Name, Food_URL, Ingredient, Category) VALUES ('" + foodName + "','" + address + "','" + Ingredient + "','" + Category + "');"
         , function (error, results, fields) {
             if (error) throw error;
             console.log(results);
@@ -167,7 +161,7 @@ exports.login = function (userID, password) {
 exports.getFoodList = function () {
     return new Promise((resolve, reject) => {
         "use strict";
-        connection.query("SELECT Category, Food_Name, group_concat(Ingredient) as Ingredient FROM FOOD group by Food_Name, Category;", function (error, results, fields) {
+        connection.query("SELECT Category, Food_Name, Food_URL, group_concat(Ingredient) as Ingredient FROM FOOD group by Food_Name, Food_URL, Category;", function (error, results, fields) {
             if (error) reject(error);
             else {
                 resolve({
@@ -215,7 +209,7 @@ exports.getChatList = function () {
 exports.getFoodbyFoodName = function (name) {
     return new Promise((resolve, reject) => {
         "use strict";
-        connection.query("SELECT Category, Food_Name, group_concat(Ingredient) as Ingredient FROM FOOD WHERE FOOD.Food_Name = '" + name + "' group by Food_Name, Category;", function (error, results, fields) {
+        connection.query("SELECT Category, Food_Name, Food_URL, group_concat(Ingredient) as Ingredient FROM FOOD WHERE FOOD.Food_Name = '" + name + "' group by Food_Name, Food_URL, Category;", function (error, results, fields) {
             if (error) reject(error);
             else {
                 resolve({
@@ -230,9 +224,9 @@ exports.getFoodbyFoodName = function (name) {
 
 exports.getFoodbyIngredient = function (ingredient) {
     return new Promise((resolve, reject) => {
-        connection.query("SELECT Category, Food_Name, group_concat(Ingredient) as Ingredient " +
+        connection.query("SELECT Category, Food_Name, Food_URL, group_concat(Ingredient) as Ingredient " +
             "FROM FOOD WHERE Food_Name IN" +
-            "(SELECT Food_Name FROM FOOD WHERE FOOD.Ingredient = " + "'" + ingredient + "') group by Food_Name, Category;", function (error, results, fields) {
+            "(SELECT Food_Name FROM FOOD WHERE FOOD.Ingredient = " + "'" + ingredient + "') group by Food_Name, Food_URL, Category;", function (error, results, fields) {
             if (error) reject(error);
             else {
                 resolve({
@@ -249,7 +243,7 @@ exports.getFoodbyIngredient = function (ingredient) {
 exports.getFoodListbyCategory = function (category) {
     return new Promise((resolve, reject) => {
         "use strict";
-        connection.query("SELECT Food_Name, group_concat(Ingredient) as Ingredient FROM FOOD WHERE FOOD.Category = " + "'" + category + "'group by Food_Name;", function (error, results, fields) {
+        connection.query("SELECT Food_Name, Food_URL, group_concat(Ingredient) as Ingredient FROM FOOD WHERE FOOD.Category = " + "'" + category + "'group by Food_Name, Food_URL;", function (error, results, fields) {
             if (error) reject(error);
             else {
                 resolve({
