@@ -93,6 +93,7 @@ router.post('/users/join', async function (req, res, next) {
 //로그인
 router.post('/users/login', async function (req, res, next) {
     const data = req.body;
+    console.log("Recieved Data: "+ data);
     try {
         const ret = await db.login(data.userID, data.password);
         if(ret.results.length !== 0){
